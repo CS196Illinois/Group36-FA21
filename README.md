@@ -1,7 +1,7 @@
 # Group 36
-Group Name: TEAM_NAME
+Group Name: Team 36
 
-[MVP Link](http://cs196.cs.illinois.edu)
+[MVP Link](https://docs.google.com/document/d/1mopy6TQCZrCaQPQmu5aqubGr2IYp-dE6Gy4uIjcytEQ/edit?usp=sharing)
 
 Team Members: cmane2, fgara2, amitabh3, ramarao2	
 
