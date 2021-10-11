@@ -1,1 +1,7 @@
-hi
+Dataset 1: https://www.kaggle.com/itachi9604/disease-symptom-description-dataset?select=dataset.csv
+It is a simple dataset listing each disease and its related symptoms. The main file is dataset.csv
+
+Dataset 2: https://www.kaggle.com/plarmuseau/sdsort?select=sym_t.csv
+This one is more complex. As far as I understand, the 3 files we are concerned about are dia_t.csv, sym_t.csv, and diffsydiw.csv.
+dia_t.csv and sym_t.csv link each disease and symptom to a unique id.
+diffsydiw.csv links the diseases and symptoms to each other, and assigns a weight for each symptom in the diagnosis of a particular disease as well.
