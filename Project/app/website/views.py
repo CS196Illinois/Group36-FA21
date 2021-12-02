@@ -1,5 +1,6 @@
 from django.http import request
 from django.shortcuts import render
+from .forms import SymptomsForm
 
 import pandas as pd
 
@@ -8,7 +9,7 @@ import pandas as pd
 # do something
 def search(request):
   if request.method == 'POST':
-      form = SearchForm(request.POST)
+      form = SymptomsForm(request.POST)
       if form.is_valid():
           search_term = form.cleaned_data['search']
       main_dataset = pd.read_csv('../../../Research/ramarao2/dataset.csv')
