@@ -18,10 +18,10 @@
     </div>
 
     <ul class="list-group">
-      {% for disease, symptoms in diseases %}
-      <li><h3>(disease)</h3>
+      {% for d, s in diseases %}
+      <li><h3>{d}</h3>
         <p>
-            Symptoms: {symptoms}
+            Symptoms: {s}
         </p>
       </li>
       {% end for %}
