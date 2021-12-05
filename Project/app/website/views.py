@@ -4,9 +4,12 @@ from .forms import SymptomsForm
 
 import pandas as pd
 
-
 # Create your views here.
-# do something
+
+def home(request):
+    return render(request, 'index.html', {})
+
+
 def search(request):
   if request.method == 'POST':
       form = SymptomsForm(request.POST)
