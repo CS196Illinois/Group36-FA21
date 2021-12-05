@@ -4,9 +4,12 @@ from .forms import SymptomsForm
 
 import pandas as pd
 
-
 # Create your views here.
-# do something
+
+def home(request):
+    return render(request, 'index.html', {})
+
+
 def search(request):
   if request.method == 'POST':
       form = SymptomsForm(request.POST)
@@ -18,7 +21,8 @@ def search(request):
       for index, row in main_dataset.iterrows():
           if row.str.contains(search_term):
               map_of_diseases[index] = row.to_list()
-      return render(request, 'search.html', {'diseases': map_of_diseases.keys(), 'symptoms': map_of_diseases.values()})
+      tuples = zip(map_of_diseases.keys(), map_of_diseases.values())
+      return render(request, 'search.html', {'diseases': tuples})
 
   return render(request, 'search.html', {'diseases': [], 'symptoms': []})
 
