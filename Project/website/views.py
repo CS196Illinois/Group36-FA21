@@ -1,8 +1,10 @@
 from django.http import request
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from .forms import SymptomsForm
 
 import pandas as pd
+import os
 
 # Create your views here.
 
@@ -15,7 +17,9 @@ def search(request):
       form = SymptomsForm(request.POST)
       if form.is_valid():
           search_term = form.cleaned_data['search']
-      main_dataset = pd.read_csv('../../../Research/ramarao2/dataset.csv')
+      else:
+          return HttpResponse("Invalid form input")
+      main_dataset = pd.read_csv(os.path.join('app/data/dataset.csv'))
       main_dataset.set_index('Disease', inplace=True)
       map_of_diseases = {}
       for index, row in main_dataset.iterrows():
