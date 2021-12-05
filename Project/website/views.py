@@ -29,3 +29,17 @@ def search(request):
       return render(request, 'search.html', {'diseases': tuples})
 
   return render(request, 'search.html', {'diseases': [], 'symptoms': []})
+
+def search(request):
+  if request.method == 'POST':
+      form = DiseasesForm(request.POST)
+      if form.is_valid():
+          search_term = form.cleaned_data['search']
+      main_dataset = pd.read_csv('../../../Research/ramarao2/dataset.csv')
+      for index, row in main_dataset.iterrows():
+        if index.str.contains(search_term):
+            return render(request, 'search.html', {'symptoms': row})
+        # if index equals the search term
+        # {‘symptoms’: list_goes_here}
+
+  return render(request, 'search.html', {'symptoms': []})
