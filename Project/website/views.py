@@ -11,13 +11,22 @@ import os
 def home(request):
     return render(request, 'index.html', {})
 
+def routing(request):
+    form = SearchForm(request.POST)
+    if form.is_valid():
+        search_type = form.cleaned_data['search_type']
+    else:
+        return HttpResponse("Invalid form")
+    if search_type == 'Symptom':
+        symptom_search(request)
 
-def search(request):
+
+def symptom_search(request):
   if request.method == 'POST':
-      form = SymptomsForm(request.POST)
+      form = SearchForm(request.POST)
       print(form.errors)
       if form.is_valid():
-          search_term = form.cleaned_data['symptom_search']
+          search_term = form.cleaned_data['search_term']
       else:
           return HttpResponse("Invalid form input")
       search_term = search_term.split(',')
@@ -43,9 +52,9 @@ def search(request):
 
 def search_disease(request):
   if request.method == 'POST':
-      form = DiseasesForm(request.POST)
+      form = SearchForm(request.POST)
       if form.is_valid():
-        search_term = form.cleaned_data['disease_search']
+        search_term = form.cleaned_data['search_term']
       main_dataset = pd.read_csv(os.path.join('app/data/dataset.csv'))
       main_dataset.set_index('Disease', inplace=True)
       for index, row in main_dataset.iterrows():
