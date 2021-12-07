@@ -11,37 +11,58 @@ import os
 def home(request):
     return render(request, 'index.html', {})
 
+def routing(request):
+    form = SearchForm(request.POST)
+    if form.is_valid():
+        search_type = form.cleaned_data['search_type']
+    else:
+        return HttpResponse("Invalid form")
+    if search_type == 'Symptom':
+        symptom_search(request)
 
-def search(request):
+
+def symptom_search(request):
   if request.method == 'POST':
-      form = SymptomsForm(request.POST)
+      form = SearchForm(request.POST)
       print(form.errors)
       if form.is_valid():
-          search_term = form.cleaned_data['symptom_search']
+          search_term = form.cleaned_data['search_term']
       else:
           return HttpResponse("Invalid form input")
+      search_term = search_term.split(',')
+      for i in range(len(search_term)):
+          search_term[i] = search_term[i].strip().replace(' ', '_')
+
       main_dataset = pd.read_csv(os.path.join('app/data/dataset.csv'))
       main_dataset.set_index('Disease', inplace=True)
       map_of_diseases = {}
+      containsAll = True
       for index, row in main_dataset.iterrows():
-          if row.str.contains(search_term).any():
-              map_of_diseases[index] = ", ".join([s.replace('_', ' ') for s in row.to_list() if pd.notna(s)])
+          containsAll = True
+          for term in search_term:
+              if not row.str.contains(term).any():
+                  containsAll = False
+                  break
+          if containsAll:
+            map_of_diseases[index] = ", ".join([s.replace('_', ' ') for s in row.to_list() if pd.notna(s)])
               
       tuples = zip(map_of_diseases.keys(), map_of_diseases.values())
-      return render(request, 'search.html', {'diseases': tuples})
-
-  return render(request, 'search.html', {'diseases': [], 'symptoms': []})
+      return render(request, 'search.html', {'diseases': tuples, 'path': '/search-symptoms/'})
+  return render(request, 'search.html', {'diseases': [], 'symptoms': [], 'path': '/search-symptoms/'})
 
 def search_disease(request):
   if request.method == 'POST':
-      form = DiseasesForm(request.POST)
+      form = SearchForm(request.POST)
       if form.is_valid():
-          search_term = form.cleaned_data['search']
+        search_term = form.cleaned_data['search_term']
       main_dataset = pd.read_csv(os.path.join('app/data/dataset.csv'))
+      main_dataset.set_index('Disease', inplace=True)
       for index, row in main_dataset.iterrows():
-        if index.str.contains(search_term):
-            return render(request, 'search.html', {'symptoms': row})
+        if index.lower() == search_term.lower():
+            tuples = [(index, ", ".join([s.replace('_', ' ') for s in row.to_list() if pd.notna(s)]))]
+            print(tuples)
+            return render(request, 'search.html', {'diseases': tuples, 'path': '/search-diseases/'})
         # if index equals the search term
         # {‘symptoms’: list_goes_here}
 
-  return render(request, 'search.html', {'symptoms': []})
+  return render(request, 'search.html', {'diseases': [], 'path': '/search-diseases/'})
