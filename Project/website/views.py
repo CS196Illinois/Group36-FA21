@@ -13,20 +13,23 @@ def home(request):
 
 def routing(request):
     form = SearchForm(request.POST)
-    if form.is_valid():
-        search_type = form.cleaned_data['search_type']
-    else:
-        return HttpResponse("Invalid form")
-    if search_type == 'Symptom':
-        symptom_search(request)
-
+    if request.method == 'POST':
+        print(form)
+        if form.is_valid():
+            search_type = form.cleaned_data['search_term']
+        else:
+            print(form.cleaned_data)
+            return HttpResponse("Invalid form")
+        if search_type == 'Symptom':
+            symptom_search(request)
+    return HttpResponse("Invalid form")
 
 def symptom_search(request):
   if request.method == 'POST':
       form = SearchForm(request.POST)
       print(form.errors)
       if form.is_valid():
-          search_term = form.cleaned_data['search_term']
+          search_term = form.cleaned_data['search_input']
       else:
           return HttpResponse("Invalid form input")
       search_term = search_term.split(',')
