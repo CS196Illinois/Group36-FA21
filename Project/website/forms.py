@@ -1,14 +1,15 @@
 from django import forms
 
 
-class SymptomsForm(forms.Form):
-    # symptoms = forms.CharField(label="symptoms")
-    symptom_search = forms.CharField(label='symptoms', max_length=100)
+class SearchForm(forms.Form):
+    search_term = forms.ChoiceField(label='search_term', choices=[('Symptoms', 'Symptoms'), ('Disease', 'Disease'), ('Hospital', 'Hospital')])
+    search_input = forms.CharField(label='search_input', max_length=100)
 
     def symptom_message(self):
-        symptom_search = self.cleaned_data.get('symptoms')
+        search_input = self.cleaned_data.get('search_input')
+        search_term = self.cleaned_data.get('search_term')
 
-        return symptom_search
+        return search_input, search_term
 
 class DiseasesForm(forms.Form):
     # diseases = forms.CharField(label="diseases")
