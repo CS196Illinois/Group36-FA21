@@ -5,6 +5,7 @@ from .forms import *
 
 import pandas as pd
 import os
+import requests
 
 # Create your views here.
 
@@ -85,4 +86,11 @@ def hospital_search(request):
     
 def hospital_search_logic(search_input):
     tuples = []
-    return {'diseases': tuples, 'path': '/search-clinics/'}
+    result = requests.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyD8lesvuvvaM9NYaTipX2oDlDbMy1VKJbY&cx=017576662512468239146:omuauf_lfve&q=hospitals near me")
+
+    r = result.json()
+
+    for i in r['items']:
+        t = (i["title"], i["link"], i['snippet'])
+        tuples.append(t)
+    return {'hospital_list': tuples, 'path': '/search-clinics/'}
