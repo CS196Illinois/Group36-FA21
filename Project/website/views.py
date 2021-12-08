@@ -69,3 +69,20 @@ def search_disease(request):
         # {‘symptoms’: list_goes_here}
 
   return render(request, 'search.html', {'diseases': [], 'path': '/search-diseases/'})
+
+
+def hospital_search(request):
+  if request.method == 'POST':
+      form = SearchForm(request.POST)
+      print(form.errors)
+      if form.is_valid():
+          search_term = form.cleaned_data['search_input']
+      else:
+          return HttpResponse("Invalid form input")
+      
+      return render(request, 'clinics.html', hospital_search_logic(search_term))
+  return render(request, 'clinics.html', {'diseases': [], 'path': '/search-clinics/'})
+    
+def hospital_search_logic(search_input):
+    tuples = []
+    return {'diseases': tuples, 'path': '/search-clinics/'}

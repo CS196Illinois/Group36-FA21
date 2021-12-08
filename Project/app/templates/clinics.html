@@ -18,7 +18,7 @@
         {% csrf_token %}
         <div class="form-group mt-3">
             <label for="exampleSearch">Search Term</label>
-            <input name="hospital_search" type="text" class="form-control" id="exampleSearch" aria-describedby="uidhelp" placeholder="Look up symptoms" value={{search_term}}>
+            <input name="search_input" type="text" class="form-control" id="exampleSearch" aria-describedby="uidhelp" placeholder="Look up symptoms" value={{search_term}}>
             <small id="uidhelp" class="form-text text-muted">Carle Illinois...</small>
         </div>
     
@@ -33,6 +33,7 @@
         </p>
         <p>
             Phone Number: {{ number }}
+            <!--title, link, snippet-->
         </p>
       </li>
       {% endfor %}
