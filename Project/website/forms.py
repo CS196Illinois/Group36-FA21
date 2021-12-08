@@ -11,6 +11,23 @@ class SearchForm(forms.Form):
 
         return search_input, search_term
 
+class ResultsPageForm(forms.Form):
+    search_input = forms.CharField(label='search_input', max_length=100)
+
+    def results_message(self):
+        search_input = self.cleaned_data.get('search_input')
+
+        return search_input
+
+class SymptomsForm(forms.Form):
+    # diseases = forms.CharField(label="diseases")
+    symptom_search = forms.CharField(label='sypmtom_search', max_length=100)
+
+    def symptom_message(self):
+        symptom_search = self.cleaned_data.get('symptoms')
+
+        return symptom_search
+
 class DiseasesForm(forms.Form):
     # diseases = forms.CharField(label="diseases")
     disease_search = forms.CharField(label='diseases', max_length=100)

@@ -18,8 +18,8 @@
         {% csrf_token %}
         <div class="form-group mt-3">
             <label for="exampleSearch">Search Term</label>
-            <input name="symptom_search" type="text" class="form-control" id="exampleSearch" aria-describedby="uidhelp" placeholder="Look up symptoms" value={{search_term}}>
-            <small id="uidhelp" class="form-text text-muted">headache...</small>
+            <input name="search_input" type="text" class="form-control" id="exampleSearch" aria-describedby="uidhelp" placeholder="Enter search term" value={{search_term}}>
+            <small id="uidhelp" class="form-text text-muted">Same search type as previous search</small>
         </div>
     
         <button type="submit" class="btn btn-primary mt-2">Search</button>
