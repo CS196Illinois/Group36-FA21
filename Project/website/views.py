@@ -96,7 +96,7 @@ def hospital_search(request):
     
 def hospital_search_logic(search_input):
     tuples = []
-    result = requests.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyD8lesvuvvaM9NYaTipX2oDlDbMy1VKJbY&cx=017576662512468239146:omuauf_lfve&q=hospitals near me")
+    result = requests.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyD8lesvuvvaM9NYaTipX2oDlDbMy1VKJbY&cx=f1a359b362d6cce63&q=hospitals near me")
 
     r = result.json()
 
