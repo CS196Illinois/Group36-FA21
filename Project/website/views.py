@@ -20,7 +20,7 @@ def routing(request):
             search_word = form.cleaned_data['search_input']
         else:
             print(form.cleaned_data)
-            return HttpResponse("Invalid form")
+            return HttpResponse("Invalid Form or empty form input")
         if search_type == 'Symptoms':
             return render(request, 'search.html', symptom_search_logic(search_word))
         if search_type == 'Disease':
