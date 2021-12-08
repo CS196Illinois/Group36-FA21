@@ -25,6 +25,8 @@ def routing(request):
             return render(request, 'search.html', symptom_search_logic(search_word))
         if search_type == 'Disease':
             return render(request, 'search.html', search_disease_logic(search_word))
+        if search_type == 'Hospital':
+            return render(request, 'search.html', hospital_search_logic(search_word))
     return HttpResponse("Invalid form")
 
 def symptom_search(request):
@@ -53,7 +55,7 @@ def symptom_search_logic(search_term):
                 containsAll = False
                 break
         if containsAll:
-            map_of_diseases[index] = ", ".join([s.replace('_', ' ') for s in row.to_list() if pd.notna(s)])
+            map_of_diseases[index] = "Symptoms: " + ", ".join([s.replace('_', ' ') for s in row.to_list() if pd.notna(s)])
             
     tuples = zip(map_of_diseases.keys(), map_of_diseases.values())
     return {'diseases': tuples, 'path': '/search-symptoms/'}
@@ -76,7 +78,7 @@ def search_disease_logic(search_term):
     main_dataset.set_index('Disease', inplace=True)
     for index, row in main_dataset.iterrows():
         if index.lower() == search_term.lower():
-            tuples = [(index, ", ".join([s.replace('_', ' ') for s in row.to_list() if pd.notna(s)]))]
+            tuples = [(index, "Symptoms: " + ", ".join([s.replace('_', ' ') for s in row.to_list() if pd.notna(s)]))]
             return {'diseases': tuples, 'path': '/search-diseases/'}
     return {}
 
@@ -98,7 +100,10 @@ def hospital_search_logic(search_input):
 
     r = result.json()
 
+    print(r)
+
     for i in r['items']:
-        t = (i["title"], i["link"], i['snippet'])
+        title = f"<a href=\"{i['link']}\">{i['title']}</a>"
+        t = (title, i['snippet'])
         tuples.append(t)
-    return {'hospital_list': tuples, 'path': '/search-clinics/'}
+    return {'diseases': tuples, 'path': '/search-clinics/'}

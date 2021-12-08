@@ -26,14 +26,10 @@
       </form>
 
     <ul class="list-group">
-      {% for hospital, address, number in hospitals_list %}
-      <li><h3>{{ hospital }}</h3>
+      {% for hospital, link, snippet in hospitals_list %}
+      <li><h3><a href="{{ link }}">{{ hospital }}</a></h3>
         <p>
-            Address: {{ address }}
-        </p>
-        <p>
-            Phone Number: {{ number }}
-            <!--title, link, snippet-->
+            {{ snippet }}
         </p>
       </li>
       {% endfor %}
